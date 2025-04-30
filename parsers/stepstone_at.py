@@ -47,7 +47,7 @@ def search(query: str, location: str, radius: int = 30) -> pd.DataFrame:
         "whereType": "autosuggest"
     }
 
-    resp = requests.get(url, headers=_HEADERS, params=params, timeout=20)
+    resp = requests.get(url, headers=_HEADERS, params=params, timeout=40)
     if resp.status_code != 200:
         raise Exception(f"Fehler beim Abruf von stepstone.at: Status {resp.status_code}")
 

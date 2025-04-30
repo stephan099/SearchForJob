@@ -8,7 +8,7 @@ DEFAULT_HEADERS = {
     )
 }
 
-def fetch_html(url: str, timeout: int = 10) -> str:
+def fetch_html(url: str, timeout: int = 40) -> str:
     """
     Holt HTML-Inhalt von einer URL, immer mit gutem User-Agent.
     """
