@@ -1,6 +1,6 @@
-import requests
 from bs4 import BeautifulSoup
 import pandas as pd
+from utils.request_utils import fetch_html  # ← angepasst
 
 def search(query: str, location: str, radius: int = 0) -> pd.DataFrame:
     base_url = "https://www.jobviertel.at/search.php"
@@ -13,11 +13,10 @@ def search(query: str, location: str, radius: int = 0) -> pd.DataFrame:
         "sortierung": "datum"
     }
 
-    response = requests.get(base_url, params=params, timeout=10)
-    if response.status_code != 200:
-        raise Exception(f"Fehler beim Abruf von jobviertel.at: Status {response.status_code}")
+    full_url = f"{base_url}?{'&'.join(f'{k}={v}' for k, v in params.items())}"
+    html = fetch_html(full_url)
 
-    soup = BeautifulSoup(response.text, "html.parser")
+    soup = BeautifulSoup(html, "html.parser")
     job_blocks = soup.select("div.column-middle.middle-happy")
 
     jobs = []

@@ -1,15 +1,12 @@
-import requests
 from bs4 import BeautifulSoup
 import pandas as pd
+from utils.request_utils import fetch_html  # ← angepasst
 
 def search(query: str, location: str) -> pd.DataFrame:
     url = f"https://www.karriere.at/jobs/{query}/{location}"
-    response = requests.get(url)
+    html = fetch_html(url)
 
-    if response.status_code != 200:
-        raise Exception(f"Fehler beim Abruf: Status {response.status_code}")
-
-    soup = BeautifulSoup(response.text, "html.parser")
+    soup = BeautifulSoup(html, "html.parser")
     job_elements = soup.select("div.m-jobsListItem")
 
     jobs = []
